@@ -1,0 +1,8 @@
+wget
+binutils
+parted
+coreutils
+e2fsprogs
+btrfs-progs
+rsync
+debootstrap
