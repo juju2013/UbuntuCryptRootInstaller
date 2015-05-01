@@ -35,6 +35,7 @@ I\'ll giving you a console shell any way ...
 EOF
 
 echo "Downloading install script ..."
+rm install-stage1.sh*
 wget raw.githubusercontent.com/${REPO}/install-stage1.sh
 /bin/bash
 chmod +x install-stage1.sh
