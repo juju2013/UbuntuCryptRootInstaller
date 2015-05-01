@@ -38,3 +38,5 @@ echo "Downloading install script ..."
 wget raw.githubusercontent.com/${REPO}/install-stage1.sh
 /bin/bash
 
+echo "You can now ssh root@your_host and launch ./install-stage1.sh"
+
