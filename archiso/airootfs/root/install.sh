@@ -5,7 +5,7 @@
 cat << EOF
 ******************************************************************************
 *** Good day, welcome to the ubuntu trusty server install CD
-      Before all: I'll give you a chance to choose your keyboard layout
+      First of all: I'll give you a chance to choose your keyboard layout
 ******************************************************************************
 EOF
 read -p "please entry the 2 letters country code for your keyboard: " kbd
