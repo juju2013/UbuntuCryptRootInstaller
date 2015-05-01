@@ -1,0 +1,4 @@
+archiso/out/*
+archiso/work/*
+*.authorized_keys
+*.swp
