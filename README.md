@@ -17,6 +17,9 @@ There's 2 stages:
 #### Boot CD
 This step builds a minimum arch linux boot cd ([archiso](https://wiki.archlinux.org/index.php/Archiso)).
 
+*  Should be built on an Arch linux host
+*  You should add your pub keys to archiso/airootfs/root/your_user_name_here.authorized_keys
+*  Inside archiso, biuld with sudo ./build.sh -v
 
 Booted with this CD on the machine/vm that you want to install ubuntu, then 
 launch 
