@@ -13,21 +13,19 @@ locale-gen en_US.UTF-8
 dpkg-reconfigure -f non-interactive tzdata
 
 
-BLKID3=`blkid | grep ${DISK}3 | cut -d " " -f 2`
-echo "${CRYPTROOT}	${BLKID3}	none	luks" > /etc/crypttab
+echo "${CRYPTROOT}	UUID=${BLKID3}	none	luks" > /etc/crypttab
 
-BLKID1=`blkid | grep ${DISK}1 | cut -d " " -f 2`
 cat > /etc/fstab <<EOF
 /dev/mapper/${CRYPTROOT}	/	btrfs	defaults,subvol=root	0	1
 /dev/mapper/${CRYPTROOT}	/home	btrfs	defaults,subvol=home	0	1
-${BLKID1}			/boot	ext2	defaults		0	1
+UUID=${BLKID1}			/boot	ext2	defaults		0	1
 EOF
 
 
 echo "deb http://fr.archive.ubuntu.com/ubuntu trusty main universe multiverse restricted" > /etc/apt/sources.list
 apt-get update
 apt-get upgrade
-apt-get install cryptsetup openssh-server btrfs-tools grub2 language-pack-en-base linux-image-3.13.0-24-generic tmux htop openntpd docker.io
+apt-get install cryptsetup openssh-server btrfs-tools grub2 linux-image-3.13.0-24-generic tmux htop openntpd docker.io dropbear
 dpkg-reconfigure openssh-server dropbear
 echo 'DOCKER_OPTS="-G docker"' >> /etc/default/docker
 
