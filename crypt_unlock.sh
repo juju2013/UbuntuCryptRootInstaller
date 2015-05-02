@@ -20,10 +20,8 @@ if [ "${DROPBEAR}" != "n" ] && [ -r "/etc/crypttab" ] ; then
 cat > "${DESTDIR}/bin/unlock" << EOF
 #!/bin/sh
 if PATH=/lib/unlock:/bin:/sbin /scripts/local-top/cryptroot; then
-kill \`ps | grep cryptroot | grep -v "grep" | awk '{print \$1}'\`
-# following line kill the remote shell right after the passphrase has
-# been entered.
-kill -9 \`ps | grep "\-sh" | grep -v "grep" | awk '{print \$1}'\`
+  kill -TERM $(ps -o pid= -C cryptroot)
+  kill -TERM $(ps -o pid= -C dropbear)
 exit 0
 fi
 exit 1

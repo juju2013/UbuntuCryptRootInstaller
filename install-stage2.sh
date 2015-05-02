@@ -5,6 +5,12 @@ export PS1='chroot > '
 
 echo "Inside the chroot now."
 . /vars.sh
+cat << EOF
+******************************************************************************
+*** Change the root password now
+******************************************************************************
+EOF
+passwd
 
 cp /usr/share/zoneinfo/Europe/Paris /etc/localtime
 echo 'LANG="en_US.UTF-8"' >  /etc/default/locale
@@ -43,6 +49,7 @@ for fname in /tmp/*.authorized_keys; do
 	chmod 0755 /home/$uname/.ssh;
 	chmod 0444 /home/$uname/.ssh/*;
 	chown -R $uname:$uname /home/$uname;
+	echo "set new password for ${uname} now."; passwd $uname
 done;
 
 cat << EOF
