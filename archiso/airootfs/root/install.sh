@@ -31,14 +31,13 @@ install summary :
 if OK, please do ssh root@${IP}, then lauch /root/setup1.sh
 if not, please change /vars.sh and/or correct error manually
 
-I\'ll giving you a console shell any way ...
+I'll giving you a console shell any way ...
 EOF
 
 echo "Downloading install script ..."
-rm install-stage1.sh*
-wget raw.githubusercontent.com/${REPO}/install-stage1.sh
-/bin/bash
+wget raw.githubusercontent.com/${REPO}/install-stage1.sh -O install-stage1.sh
 chmod +x install-stage1.sh
 echo ""
 echo "You can now ssh root@your_host and launch ./install-stage1.sh"
 echo ""
+/bin/bash

@@ -50,7 +50,11 @@ mount -t proc proc ${CHROOT}/proc
 mount -t sysfs sys ${CHROOT}/sys
 mkdir -p ${CHROOT}/boot
 mount ${DISK}1 ${CHROOT}/boot
-chroot ${CHROOT} /bin/bash
-export PATH=/bin:/sbin:/usr/bin:/usr/sbin
-export PS1='chroot > '
+
+echo "Downloading next stage script"
+wget raw.githubusercontent.com/${REPO}/install-stage2.sh -O install-stage2.sh
+cp install-stage2.sh ${CHROOT}/
+
+echo "Going to chroot now..."
+chroot ${CHROOT} /bin/bash /install-stage2.sh
 
