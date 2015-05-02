@@ -88,13 +88,17 @@ chmod +x /etc/initramfs-tools/hooks/crypt_unlock.sh
 
 echo "IP=${IP}::${GW}:${MASK}::eth0:off" >> /etc/initramfs-tools/initramfs.conf
 echo "ifconfig eth0 0.0.0.0" >> /usr/share/initramfs-tools/scripts/init-bottom/dropbear
-cp /etc/ssh/ssh_host_rsa_key /etc/initramfs-tools/etc/dropbear/dropbear_rsa_host_key
-cp /etc/ssh/ssh_host_dsa_key /etc/initramfs-tools/etc/dropbear/dropbear_dss_host_key
+/usr/lib/dropbear/dropbearconvert openssh dropbear /etc/ssh/ssh_host_rsa_key /etc/dropbear/dropbear_rsa_host_key
+/usr/lib/dropbear/dropbearconvert openssh dropbear /etc/ssh/ssh_host_dsa_key /etc/dropbear/dropbear_dss_host_key
+cp /etc/dropbear/*key /etc/initramfs-tools/etc/dropbear/
 
 
 update-initramfs -u -v -k all
 update-grub2 ${DISK}
 
+echo "Post clean up ..."
+cat /etc/default/dropbear | sed 's/NO_START=.*/NO_START=1/' > /etc/default/dropbear
+update-rc.d -f dropbear remove
 
 cat <<EOF
 *****************************************************************************

@@ -17,11 +17,11 @@ esac
 . /usr/share/initramfs-tools/hook-functions
 
 if [ "${DROPBEAR}" != "n" ] && [ -r "/etc/crypttab" ] ; then
-cat > "${DESTDIR}/bin/unlock" << EOF
+cat > "${DESTDIR}/bin/unlock" << 'EOF'
 #!/bin/sh
 if PATH=/lib/unlock:/bin:/sbin /scripts/local-top/cryptroot; then
-  kill -TERM $(ps -o pid= -C cryptroot)
-  kill -TERM $(ps -o pid= -C dropbear)
+  kill `ps | grep cryptroot | grep -v "grep" | awk '{print \$1}'`
+	kill -9 \`ps | grep "\-sh" | grep -v "grep" | awk '{print \$1}'\`
 exit 0
 fi
 exit 1
