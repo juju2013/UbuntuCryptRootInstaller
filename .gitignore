@@ -1,4 +1,4 @@
 archiso/out/*
 archiso/work/*
-**/root/*.authorized_keys
+*.authorized_keys
 *.swp

@@ -53,8 +53,11 @@ mount ${DISK}1 ${CHROOT}/boot
 
 echo "Downloading next stage script"
 wget raw.githubusercontent.com/${REPO}/install-stage2.sh -O install-stage2.sh
+chmod +x install-stage2.sh
 cp install-stage2.sh ${CHROOT}/
 
 echo "Going to chroot now..."
-chroot ${CHROOT} /bin/bash /install-stage2.sh
+cp /vars.sh ${CHROOT}/
+cp *.authirized_keys ${CHROOT}/tmp/
+chroot ${CHROOT} /bin/bash -c /install-stage2.sh
 
