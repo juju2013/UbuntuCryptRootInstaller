@@ -37,6 +37,7 @@ mkfs.ext2 ${DISK}1
 mount /dev/mapper/${CRYPTROOT} /mnt
 btrfs sub create ${CHROOT}/home
 btrfs sub create ${CHROOT}/root
+umount ${CHROOT}
 
 mount -o subvol=root /dev/mapper/${CRYPTROOT} ${CHROOT}
 mkdir -p ${CHROOT}/home
@@ -59,8 +60,11 @@ cp /etc/ssh/ssh_host* ${CHROOT}/etc/initramfs-tools/etc/ssh
 
 echo "Downloading next stage script"
 wget raw.githubusercontent.com/${REPO}/install-stage2.sh -O install-stage2.sh
+wget raw.githubusercontent.com/${REPO}/config-network.sh -O config-network.sh
 chmod +x install-stage2.sh
+chmod +x config-network.sh
 cp install-stage2.sh ${CHROOT}/
+cp config-network.sh ${CHROOT}/
 
 echo "Going to chroot now..."
 BLKID1=`blkid | grep ${DISK}1 | cut -d " " -f 2| cut -d \" -f 2`

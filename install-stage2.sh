@@ -52,48 +52,20 @@ for fname in /tmp/*.authorized_keys; do
 	echo "set new password for ${uname} now."; passwd $uname
 done;
 
-cat << EOF
-*****************************************************************************
-OK, let's do some network configuration now
-EOF
-
-read -p "What'll be your IP address? " IP
-read -p "                IP mask   ? " MASK
-read -p "                default GW? " GW
-read -p "                DNS server? " DNS
-
-cat > /etc/network/interfaces <<EOF
-auto eth0
-  iface eth0 inet static
-  address $IP
-  netmask $MASK
-  gateway $GW
-EOF
-
-osl=`dd if=/dev/urandom bs=1K count=1 2>/dev/null| sha1sum | cut -d ' ' -f 1`
-HOST=${osl:3:8}
-echo $HOST > /etc/hostname
-echo "127.0.0.1		localhost ${HOST}" >> /etc/hosts
-
 echo "NO_START=0" >> /etc/default/dropbear
-
-echo "***** Now preparing boot"
-cat /etc/default/grub |sed -e 's/GRUB_CMDLINE_LINUX_DEFAULT.*/GRUB_CMDLINE_LINUX_DEFAULT=""/' > /etc/default/grub
-
 cat /tmp/*.authorized_keys > /etc/initramfs-tools/root/.ssh/authorized_keys
 
 mkdir -p /etc/initramfs-tools/hooks/
-wget raw.githubusercontent.com/${REPO}/crypt_unlock.sh -O /etc/initramfs-tools/hooks/crypt_unlock.sh
-chmod +x /etc/initramfs-tools/hooks/crypt_unlock.sh
+wget raw.githubusercontent.com/${REPO}/crypt-unlock.sh -O /etc/initramfs-tools/hooks/crypt-unlock.sh
+chmod +x /etc/initramfs-tools/hooks/crypt-unlock.sh
 
-echo "IP=${IP}::${GW}:${MASK}::eth0:off" >> /etc/initramfs-tools/initramfs.conf
-echo "ifconfig eth0 0.0.0.0" >> /usr/share/initramfs-tools/scripts/init-bottom/dropbear
 /usr/lib/dropbear/dropbearconvert openssh dropbear /etc/ssh/ssh_host_rsa_key /etc/dropbear/dropbear_rsa_host_key
 /usr/lib/dropbear/dropbearconvert openssh dropbear /etc/ssh/ssh_host_dsa_key /etc/dropbear/dropbear_dss_host_key
 cp /etc/dropbear/*key /etc/initramfs-tools/etc/dropbear/
 
 
-update-initramfs -u -v -k all
+./config-network.sh
+cat /etc/default/grub |sed -e 's/GRUB_CMDLINE_LINUX_DEFAULT.*/GRUB_CMDLINE_LINUX_DEFAULT=""/' > /etc/default/grub
 update-grub2 ${DISK}
 
 echo "Post clean up ..."
