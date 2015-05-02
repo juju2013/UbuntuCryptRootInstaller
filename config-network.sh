@@ -32,7 +32,7 @@ cat /etc/default/grub |sed -e 's/GRUB_CMDLINE_LINUX_DEFAULT.*/GRUB_CMDLINE_LINUX
 cat /tmp/*.authorized_keys > /etc/initramfs-tools/root/.ssh/authorized_keys
 
 inf=/etc/initramfs-tools/initramfs.conf
-echo "IP=${IP}::${GW}:${MASK}::eth0:off/" >> $inf
+echo "IP=${IP}::${GW}:${MASK}::eth0:off" >> $inf
 
 
 update-initramfs -u -k all
