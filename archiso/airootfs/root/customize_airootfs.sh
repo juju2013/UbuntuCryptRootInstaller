@@ -18,18 +18,25 @@ systemctl enable pacman-init.service choose-mirror.service
 systemctl set-default multi-user.target
 
 mkdir -p /etc/ssh
-ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key -N ''
-ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -N ''
+ssh-keygen -t dsa -f /etc/ssh/ssh_host_dsa_key -qN ''
+ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key -qN ''
+ssh-keygen -t ed25519 -f /etc/ssh/ssh_host_ed25519_key -qN ''
+ssh-keygen -t ecdsa -f /etc/ssh/ssh_host_ecdsa_key -qN ''
 
-dsakey=`ssh-keygen -lf /etc/ssh/ssh_host_dsa_key.pub`
-rsakey=`ssh-keygen -lf /etc/ssh/ssh_host_rsa_key.pub`
+k1=`ssh-keygen -lqf /etc/ssh/ssh_host_dsa_key.pub`
+k2=`ssh-keygen -lqf /etc/ssh/ssh_host_rsa_key.pub`
+k3=`ssh-keygen -lqf /etc/ssh/ssh_host_ecdsa_key.pub`
+k4=`ssh-keygen -lqf /etc/ssh/ssh_host_ed25519_key.pub`
 cat << EOF
 *****************************************************************************
 ***** Please note down the new installed ssh host keys :
-        DSA key : $dsakey
-        RSA key : $rsakey
+        DSA key : $k1
+        RSA key : $k2
+      ECDSA key : $k3
+    ED25519 key : $k4
 
 You should add them to your ssh's known_hosts file later
 EOF
 read -p "presse ENTER to continue" ff
+chown -R 0:0 /root
 
