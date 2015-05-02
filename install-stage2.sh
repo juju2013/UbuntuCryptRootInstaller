@@ -31,7 +31,7 @@ EOF
 echo "deb http://fr.archive.ubuntu.com/ubuntu trusty main universe multiverse restricted" > /etc/apt/sources.list
 apt-get update
 apt-get upgrade
-apt-get install cryptsetup openssh-server btrfs-tools grub2 linux-image-3.13.0-24-generic tmux htop openntpd docker.io dropbear
+apt-get install -y --force-yes cryptsetup openssh-server btrfs-tools grub2 linux-image-3.13.0-24-generic tmux htop openntpd docker.io dropbear
 dpkg-reconfigure openssh-server dropbear
 echo 'DOCKER_OPTS="-G docker"' >> /etc/default/docker
 

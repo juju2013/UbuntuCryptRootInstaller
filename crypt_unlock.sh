@@ -21,7 +21,7 @@ cat > "${DESTDIR}/bin/unlock" << 'EOF'
 #!/bin/sh
 if PATH=/lib/unlock:/bin:/sbin /scripts/local-top/cryptroot; then
   kill `ps | grep cryptroot | grep -v "grep" | awk '{print \$1}'`
-	kill -9 \`ps | grep "\-sh" | grep -v "grep" | awk '{print \$1}'\`
+	kill -9 `ps | grep "\-sh" | grep -v "grep" | awk '{print \$1}'`
 exit 0
 fi
 exit 1
