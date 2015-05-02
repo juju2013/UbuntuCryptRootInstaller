@@ -38,7 +38,11 @@ EOF
 
 chmod 755 "${DESTDIR}/lib/unlock/plymouth"
 
+echo "*****************************************" >> ${DESTDIR}/etc/motd
+echo "*****************************************" >> ${DESTDIR}/etc/motd
 echo To unlock root-partition run "unlock" >> ${DESTDIR}/etc/motd
+echo "*****************************************" >> ${DESTDIR}/etc/motd
+echo "*****************************************" >> ${DESTDIR}/etc/motd
 
 fi
 

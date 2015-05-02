@@ -11,6 +11,7 @@ read -p "What'll be your IP address? " IP
 read -p "                IP mask   ? " MASK
 read -p "                default GW? " GW
 read -p "                DNS server? " DNS
+read -p "                hostname  ? " HOST
 
 cat > /etc/network/interfaces <<EOF
 auto eth0
@@ -20,8 +21,8 @@ auto eth0
   gateway $GW
 EOF
 
-osl=`dd if=/dev/urandom bs=1K count=1 2>/dev/null| sha1sum | cut -d ' ' -f 1`
-HOST=${osl:3:8}
+#osl=`dd if=/dev/urandom bs=1K count=1 2>/dev/null| sha1sum | cut -d ' ' -f 1`
+#HOST=${osl:3:8}
 echo $HOST > /etc/hostname
 echo "127.0.0.1		localhost ${HOST}" >> /etc/hosts
 echo "New hostname is ${HOST}"
@@ -33,7 +34,8 @@ cat /tmp/*.authorized_keys > /etc/initramfs-tools/root/.ssh/authorized_keys
 
 inf=/etc/initramfs-tools/initramfs.conf
 echo "IP=${IP}::${GW}:${MASK}::eth0:off" >> $inf
-
+ing=/usr/share/initramfs-tools/scripts/init-bottom/dropbear
+echo "ifconfig eth0 0.0.0.0 down" >> $ing
 
 update-initramfs -u -k all
 
