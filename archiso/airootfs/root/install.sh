@@ -16,7 +16,7 @@ echo "You should now change you root password."
 passwd
 
 echo ""
-echo "Brinking up network"
+echo "Brinking up network with DHCP"
 dhclient eth0
 systemctl restart sshd.service
 
