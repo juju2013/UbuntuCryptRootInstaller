@@ -79,4 +79,5 @@ EOF
 
 cp *.authorized_keys ${CHROOT}/tmp/
 chroot ${CHROOT} /bin/bash -c /install-stage2.sh
+sync; sync; sync
 

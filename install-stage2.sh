@@ -66,6 +66,7 @@ cp /etc/dropbear/*key /etc/initramfs-tools/etc/dropbear/
 
 ./config-network.sh
 cat /etc/default/grub |sed -e 's/GRUB_CMDLINE_LINUX_DEFAULT.*/GRUB_CMDLINE_LINUX_DEFAULT=""/' > /etc/default/grub
+echo 'GRUB_TIMEOUT="03"' >> /etc/default/grub
 update-grub2 ${DISK}
 
 echo "Post clean up ..."
